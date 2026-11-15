@@ -1,0 +1,11 @@
+{
+  "name": "shadow-reign-gamerkie",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A self-contained original fantasy action-adventure game for static hosting.",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "serve": "python3 -m http.server 8080"
+  }
+}
