@@ -1,4 +1,144 @@
-#touch-controls{position:absolute;z-index:7;inset:auto 0 max(13px,env(safe-area-inset-bottom)) 0;display:flex;justify-content:space-between;align-items:flex-end;padding:0 18px;pointer-events:none}.touch-movement,.touch-actions{display:flex;align-items:flex-end;gap:8px;pointer-events:auto}.virtual-stick{position:relative;width:112px;height:112px;border-radius:50%;background:radial-gradient(circle,rgba(65,78,94,.55),rgba(12,19,30,.72));border:1px solid rgba(226,199,156,.55);box-shadow:inset 0 0 22px rgba(255,255,255,.05);touch-action:none;display:grid;place-items:center}.stick-knob{position:absolute;left:50%;top:50%;width:43px;height:43px;margin:-21.5px 0 0 -21.5px;border-radius:50%;background:linear-gradient(145deg,rgba(230,201,158,.92),rgba(123,91,62,.9));border:1px solid rgba(255,240,211,.7);box-shadow:0 4px 13px rgba(0,0,0,.35);pointer-events:none}.virtual-stick small{position:absolute;bottom:13px;font-size:8px;letter-spacing:.18em;color:rgba(255,255,255,.62);pointer-events:none}.touch-actions{display:grid;grid-template-columns:repeat(3,54px);gap:7px}.touch-actions button{width:54px;height:48px;padding:0;border-radius:12px;background:rgba(15,22,34,.72);border:1px solid rgba(226,199,156,.48);font-size:10px;letter-spacing:.05em;touch-action:none}.touch-actions .special{background:rgba(105,66,121,.8);color:#fff;border-color:#c69bd8}.touch-actions button:active,.touch-movement button:active{background:rgba(190,145,91,.8)}
-@media(max-width:760px){.menu-shell{grid-template-columns:1fr;gap:20px;min-height:0;padding:24px 23px 47px;width:min(520px,95vw)}.brand-mark{width:48px;height:48px;font-size:19px;margin:0 0 22px 10px}.menu-logo{max-width:340px;margin:9px 0 10px}.menu-brand h1{font-size:clamp(43px,12vw,70px);margin:8px 0}.menu-brand p{font-size:9px;margin-top:12px}.menu-actions{grid-template-columns:1fr 1fr;gap:6px}.menu-actions button{font-size:11px;min-height:42px;padding:7px 10px}.menu-actions button:first-child{grid-column:1/-1}.menu-bottom{font-size:8px;bottom:12px}.panel.wide{padding:17px}.chapter-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.chapter-card{min-height:115px;padding:10px}.chapter-card strong{font-size:12px}.character-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.character-card{padding:8px}.character-art{height:86px}.character-card small{min-height:36px;font-size:10px}.character-card h3{font-size:16px}.character-card button{font-size:9px}.panel h2,.cinematic h2,.result-card h2{font-size:24px}.manual-grid{grid-template-columns:repeat(2,1fr)}.setting-row{align-items:flex-start;flex-direction:column}.setting-row>div{width:100%;flex-wrap:wrap}.setting-row button{flex:1}.dialogue-card{padding:18px}.result-stats{gap:5px}.result-stats div{min-width:0;flex:1;padding:8px}.result-stats b{font-size:18px}.objective-chip{top:65px}.hud-top{gap:8px}.hud-brand{min-width:0}.hud-brand>span{width:29px;height:29px;font-size:11px}.hud-brand b{font-size:9px}.hud-brand small{font-size:8px}.health-wrap{width:min(180px,34vw)}.health-label{font-size:8px}.pause-button{width:32px;height:32px}}
-@media(max-width:820px) and (orientation:portrait){#orientation-hint{display:flex;position:absolute;z-index:50;inset:0;background:#0b101b;align-items:center;justify-content:center;flex-direction:column;gap:13px;text-align:center;padding:25px}#orientation-hint span{font-size:45px;color:var(--gold)}#orientation-hint b{font:700 15px Cinzel,serif;letter-spacing:.16em}#orientation-hint small{color:var(--muted);font-size:13px}#screen-layer{padding:10px} }
-@media(pointer:fine){#touch-controls{display:none!important}}
+/* Touch controls stay visible on touch-capable phones/tablets, including hybrid devices. */
+#touch-controls {
+  position: absolute;
+  z-index: 7;
+  inset: auto max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 0;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+body.touch-device #touch-controls:not(.hidden) { display: flex !important; }
+@media (hover: hover) and (pointer: fine) {
+  body:not(.touch-device) #touch-controls { display: none !important; }
+}
+.touch-movement, .touch-actions { display: flex; align-items: flex-end; gap: 8px; pointer-events: auto; }
+.touch-movement { flex: 0 0 auto; }
+.touch-movement .move-button {
+  width: 58px;
+  height: 58px;
+  padding: 0;
+  border-radius: 15px;
+  border: 1px solid rgba(226,199,156,.68);
+  background: linear-gradient(145deg, rgba(35,47,65,.94), rgba(10,16,27,.94));
+  color: #f4d7a3;
+  font-size: 22px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.45), inset 0 0 12px rgba(255,255,255,.05);
+  touch-action: none;
+}
+.touch-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 58px);
+  gap: 7px;
+}
+.touch-actions button {
+  width: 58px;
+  min-width: 0;
+  height: 48px;
+  padding: 0 3px;
+  border-radius: 12px;
+  background: rgba(15,22,34,.9);
+  border: 1px solid rgba(226,199,156,.62);
+  color: #f5ead8;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .035em;
+  line-height: 1;
+  box-shadow: 0 4px 14px rgba(0,0,0,.42);
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.touch-actions .special {
+  background: linear-gradient(145deg, rgba(105,66,121,.96), rgba(53,31,73,.96));
+  color: #fff;
+  border-color: #c69bd8;
+}
+.touch-actions button:active, .touch-movement button:active {
+  background: rgba(190,145,91,.96);
+  color: #fff;
+  transform: scale(.96);
+}
+
+@media (max-width: 760px) {
+  .menu-shell { grid-template-columns: 1fr; gap: 20px; min-height: 0; padding: 24px 23px 47px; width: min(520px,95vw); }
+  .brand-mark { width: 48px; height: 48px; font-size: 19px; margin: 0 0 22px 10px; }
+  .menu-logo { max-width: 340px; margin: 9px 0 10px; }
+  .menu-brand h1 { font-size: clamp(43px,12vw,70px); margin: 8px 0; }
+  .menu-brand p { font-size: 9px; margin-top: 12px; }
+  .menu-actions { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .menu-actions button { font-size: 11px; min-height: 42px; padding: 7px 10px; }
+  .menu-actions button:first-child { grid-column: 1/-1; }
+  .menu-bottom { font-size: 8px; bottom: 12px; }
+  .panel.wide { padding: 17px; }
+  .chapter-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px; }
+  .chapter-card { min-height: 115px; padding: 10px; }
+  .chapter-card strong { font-size: 12px; }
+  .character-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+  .character-card { padding: 8px; }
+  .character-art { height: 86px; }
+  .character-card small { min-height: 36px; font-size: 10px; }
+  .character-card h3 { font-size: 16px; }
+  .character-card button { font-size: 9px; }
+  .panel h2, .cinematic h2, .result-card h2 { font-size: 24px; }
+  .manual-grid { grid-template-columns: repeat(2,1fr); }
+  .setting-row { align-items: flex-start; flex-direction: column; }
+  .setting-row>div { width: 100%; flex-wrap: wrap; }
+  .setting-row button { flex: 1; }
+  .dialogue-card { padding: 18px; }
+  .result-stats { gap: 5px; }
+  .result-stats div { min-width: 0; flex: 1; padding: 8px; }
+  .result-stats b { font-size: 18px; }
+  .hud-top { gap: 8px; }
+  .hud-brand { min-width: 0; }
+  .hud-brand>span { width: 29px; height: 29px; font-size: 11px; }
+  .hud-brand b { font-size: 9px; }
+  .hud-brand small { font-size: 8px; }
+  .health-wrap { width: min(180px,34vw); }
+  .health-label { font-size: 8px; }
+  .pause-button { width: 32px; height: 32px; }
+}
+
+/* On small landscape phones, compact the HUD and action pads so nothing is clipped. */
+@media (orientation: landscape) and (max-height: 520px) {
+  #hud { padding: 8px 12px; }
+  .hud-top { gap: 8px; }
+  .hud-brand { min-width: 120px; }
+  .hud-brand>span { width: 27px; height: 27px; font-size: 10px; }
+  .health-wrap { width: min(190px,28vw); }
+  .objective-chip { top: 48px; padding: 5px 10px; }
+  .objective-chip span { font-size: 11px; }
+  .boss-hud { top: 94px; }
+  #touch-controls { bottom: max(6px, env(safe-area-inset-bottom)); }
+  .touch-movement, .touch-actions { gap: 5px; }
+  .touch-movement .move-button { width: 50px; height: 50px; border-radius: 12px; font-size: 19px; }
+  .touch-actions { grid-template-columns: repeat(3, 52px); gap: 5px; }
+  .touch-actions button { width: 52px; height: 40px; border-radius: 10px; font-size: 9px; }
+}
+
+@media (max-width: 380px) and (orientation: portrait) {
+  .touch-movement .move-button { width: 50px; height: 50px; }
+  .touch-actions { grid-template-columns: repeat(3, 48px); gap: 5px; }
+  .touch-actions button { width: 48px; height: 42px; font-size: 8px; }
+}
+
+#orientation-hint { display: none; }
+#orientation-hint.active {
+  display: flex;
+  position: absolute;
+  z-index: 50;
+  inset: 0;
+  background: rgba(7,10,18,.97);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 13px;
+  text-align: center;
+  padding: 25px;
+}
+#orientation-hint span { font-size: 45px; color: var(--gold); }
+#orientation-hint b { font: 700 15px Cinzel,serif; letter-spacing: .16em; }
+#orientation-hint small { max-width: 290px; color: var(--muted); font-size: 13px; }
