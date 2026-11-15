@@ -44,7 +44,7 @@ export class Controls {
     }
   }
   down(action) {
-    const map = { left: ['a', 'arrowleft'], right: ['d', 'arrowright'], jump: ['w', 'arrowup', ' ', 'jump'], light: ['j', 'light'], heavy: ['k', 'heavy'], bow: ['l', 'bow'], dodge: ['shift', 'dodge'], special: ['q', 'special'], interact: ['e', 'interact'], pause: ['escape', 'pause'] };
+    const map = { left: ['a', 'arrowleft', 'left'], right: ['d', 'arrowright', 'right'], jump: ['w', 'arrowup', ' ', 'jump'], light: ['j', 'light'], heavy: ['k', 'heavy'], bow: ['l', 'bow'], dodge: ['shift', 'dodge'], special: ['q', 'special'], interact: ['e', 'interact'], pause: ['escape', 'pause'] };
     return (map[action] || [action]).some(k => this.keys.has(k)) || (action === 'left' && this.pointer.left) || (action === 'right' && this.pointer.right);
   }
   tapped(action) {

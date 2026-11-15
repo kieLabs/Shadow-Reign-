@@ -11,8 +11,15 @@ import { loadSave, saveGame, resetSave, completeChapter, isChapterUnlocked } fro
 import { MissionState } from './missions.js';
 import { GameUI } from './ui.js';
 import { StoryDirector } from './story.js';
+import { isTouchDevice, shouldShowOrientationHint, requestFullscreenLandscape } from './device.js';
 
 const canvas = document.getElementById('game-canvas');
+const touchDevice = isTouchDevice({
+  maxTouchPoints: navigator.maxTouchPoints || 0,
+  coarsePointer: window.matchMedia?.('(pointer: coarse)').matches || false,
+  hasTouchEvent: 'ontouchstart' in window
+});
+if (touchDevice) document.body.classList.add('touch-device');
 const renderer = new GameRenderer(canvas);
 const controls = new Controls();
 const audio = new AudioDirector();
@@ -26,7 +33,28 @@ let challengeWave = 0, challengeWaveKills = 0, challengeScore = 0;
 let toastCooldown = 0;
 
 function persist() { saveGame(save); }
-function showMenu() { story.skip(); screen = 'menu'; audio.stopAmbient(); ui.showMenu(save); }
+function syncOrientationHint() {
+  const portrait = window.matchMedia?.('(orientation: portrait)').matches || false;
+  const gameActive = ['game', 'pause'].includes(screen);
+  const hint = document.getElementById('orientation-hint');
+  hint.classList.toggle('active', shouldShowOrientationHint({ touchDevice, gameActive, portrait }));
+}
+async function enterGameFullscreen() {
+  if (!touchDevice) return;
+  await requestFullscreenLandscape({
+    element: document.documentElement,
+    orientation: globalThis.screen?.orientation,
+    enabled: true
+  });
+  syncOrientationHint();
+}
+function exitGameFullscreen() {
+  const exit = document.exitFullscreen || document.webkitExitFullscreen;
+  if ((document.fullscreenElement || document.webkitFullscreenElement) && typeof exit === 'function') {
+    try { const result = exit.call(document); result?.catch?.(() => {}); } catch { /* optional browser feature */ }
+  }
+}
+function showMenu() { story.skip(); screen = 'menu'; audio.stopAmbient(); exitGameFullscreen(); ui.showMenu(save); syncOrientationHint(); }
 function startChapter(id) {
   const ch = CHAPTERS[id - 1];
   if (!ch || !isChapterUnlocked(id, save.completed)) { ui.showToast('Complete the previous chapter to unlock this one.'); return; }
@@ -53,7 +81,7 @@ function startChallenge() {
   boss = null; mission = new MissionState(chapter); mission.damageScale = difficultyScale();
   floaters = []; currentBossVisible = false; challengeMode = true; challengeWave = 1; challengeWaveKills = 0; challengeScore = 0;
   spawnChallengeWave(); screen = 'game'; audio.unlock(); audio.startAmbient(11);
-  ui.hideScreen(); ui.showToast('CHALLENGE MODE · WAVE 1');
+  ui.hideScreen(); ui.showToast('CHALLENGE MODE · WAVE 1'); syncOrientationHint();
 }
 function spawnChallengeWave() {
   const count = 3 + challengeWave * 2;
@@ -187,17 +215,17 @@ ui.onAction = (action, button) => {
     case 'sound': audio.setEnabled(!audio.enabled); ui.showSettings(save, audio.enabled); break;
     case 'how': ui.showHow(save); break;
     case 'menu': showMenu(); break;
-    case 'intro-start': ui.beginDialogue(); break;
+    case 'intro-start': void enterGameFullscreen(); ui.beginDialogue(); break;
     case 'dialogue-next': story.next(); break;
-    case 'resume': screen = 'game'; audio.startAmbient(chapter.id); ui.hideScreen(); break;
+    case 'resume': void enterGameFullscreen(); screen = 'game'; audio.startAmbient(chapter.id); ui.hideScreen(); syncOrientationHint(); break;
     case 'pause':
-      if (story.active) story.skip(); else if (screen === 'game') { screen = 'pause'; audio.stopAmbient(); ui.showPause(save.language); }
+      if (story.active) story.skip(); else if (screen === 'game') { screen = 'pause'; audio.stopAmbient(); ui.showPause(save.language); syncOrientationHint(); }
       break;
-    case 'restart': startChapter(chapter.id); break;
+    case 'restart': void enterGameFullscreen(); startChapter(chapter.id); break;
     case 'retry':
-      if (mission?.complete) ui.showChapters(save); else startChapter(chapter.id); break;
-    case 'next': startChapter(chapter.id + 1); break;
-    case 'challenge': startChallenge(); break;
+      if (mission?.complete) ui.showChapters(save); else { void enterGameFullscreen(); startChapter(chapter.id); } break;
+    case 'next': void enterGameFullscreen(); startChapter(chapter.id + 1); break;
+    case 'challenge': void enterGameFullscreen(); startChallenge(); break;
     case 'achievements': showAchievements(); break;
     default: break;
   }
@@ -214,6 +242,11 @@ function frame(now) {
 
 // Initial screen and device orientation hint.
 showMenu();
+syncOrientationHint();
+window.addEventListener('resize', syncOrientationHint);
+window.addEventListener('orientationchange', () => setTimeout(syncOrientationHint, 150));
+document.addEventListener('fullscreenchange', syncOrientationHint);
+document.addEventListener('webkitfullscreenchange', syncOrientationHint);
 requestAnimationFrame(frame);
 
 // Make a clean fallback on storage-restricted/private browsing contexts.
