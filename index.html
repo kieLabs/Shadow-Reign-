@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#101521">
+  <meta name="description" content="Shadow Reign – GamerKie Edition. One warrior. One lost kingdom. An epic original fantasy action adventure.">
+  <title>SHADOW REIGN – GamerKie Edition</title>
+  <link rel="icon" href="assets/logo/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/menu.css">
+  <link rel="stylesheet" href="css/gameplay.css">
+  <link rel="stylesheet" href="css/mobile.css">
+</head>
+<body>
+  <main id="game-shell">
+    <canvas id="game-canvas" aria-label="Shadow Reign gameplay canvas"></canvas>
+    <div id="hud" class="hidden" aria-live="polite">
+      <div class="hud-top">
+        <div class="hud-brand"><span>SR</span><div><b id="hud-chapter">CHAPTER 01</b><small id="hud-character">ARIN</small></div></div>
+        <div class="health-wrap"><div class="health-label"><span>HEALTH</span><b id="health-text">120 / 120</b></div><div class="health-track"><i id="health-fill"></i></div></div>
+        <div class="shard-chip">✦ <b id="shards-count">0</b></div>
+        <button id="pause-button" class="pause-button" aria-label="Pause game">Ⅱ</button>
+      </div>
+      <div class="objective-chip"><small>OBJECTIVE</small><span id="objective-text">Reach the boss.</span></div>
+      <div id="boss-hud" class="boss-hud hidden"><b id="boss-name">BOSS</b><div><i id="boss-fill"></i></div></div>
+    </div>
+    <div id="screen-layer"></div>
+    <div id="toast" role="status"></div>
+    <div id="touch-controls" class="hidden">
+      <div class="touch-movement"><div id="virtual-stick" class="virtual-stick" role="application" aria-label="Virtual movement joystick"><span class="stick-knob"></span><small>MOVE</small></div></div>
+      <div class="touch-actions">
+        <button data-control="jump">JUMP</button><button data-control="light">HIT</button><button data-control="heavy">HEAVY</button><button data-control="bow">BOW</button><button data-control="dodge">DODGE</button><button data-control="special" class="special">Q</button>
+      </div>
+    </div>
+    <div id="orientation-hint"><span>↻</span><b>ROTATE YOUR DEVICE</b><small>Play in landscape for the best experience.</small></div>
+  </main>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
