@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 240" role="img" aria-labelledby="title desc">
+<title id="title">Shadow Reign</title><desc id="desc">Original Shadow Reign GamerKie fantasy game wordmark.</desc>
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4dcae"/><stop offset=".52" stop-color="#dcae6b"/><stop offset="1" stop-color="#956443"/></linearGradient><filter id="s"><feGaussianBlur stdDeviation="7"/></filter></defs>
+<path d="M64 30 120 15 176 30 193 84 176 138 120 153 64 138 47 84Z" fill="none" stroke="url(#g)" stroke-width="5"/><path d="M120 37 143 84 120 132 97 84Z" fill="url(#g)" opacity=".9"/><path d="M120 15V153M47 84H193" stroke="#e8c184" stroke-width="2" opacity=".55"/>
+<text x="225" y="106" fill="#f4ead8" font-family="Georgia,serif" font-size="76" font-weight="bold" letter-spacing="5">SHADOW</text><text x="225" y="188" fill="url(#g)" font-family="Georgia,serif" font-size="76" font-weight="bold" letter-spacing="5">REIGN</text><path d="M225 207H814" stroke="#d9ad70" stroke-width="2" opacity=".65"/><text x="230" y="232" fill="#aab2c0" font-family="Arial,sans-serif" font-size="17" letter-spacing="8">GAMERKIE EDITION</text>
+</svg>
