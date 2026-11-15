@@ -27,13 +27,21 @@
     </div>
     <div id="screen-layer"></div>
     <div id="toast" role="status"></div>
-    <div id="touch-controls" class="hidden">
-      <div class="touch-movement"><div id="virtual-stick" class="virtual-stick" role="application" aria-label="Virtual movement joystick"><span class="stick-knob"></span><small>MOVE</small></div></div>
-      <div class="touch-actions">
-        <button data-control="jump">JUMP</button><button data-control="light">HIT</button><button data-control="heavy">HEAVY</button><button data-control="bow">BOW</button><button data-control="dodge">DODGE</button><button data-control="special" class="special">Q</button>
+    <div id="touch-controls" class="hidden" aria-label="Mobile game controls">
+      <div class="touch-movement" aria-label="Movement controls">
+        <button type="button" data-control="left" class="move-button" aria-label="Move left">◀</button>
+        <button type="button" data-control="right" class="move-button" aria-label="Move right">▶</button>
+      </div>
+      <div class="touch-actions" aria-label="Combat controls">
+        <button type="button" data-control="jump">JUMP</button>
+        <button type="button" data-control="light">HIT</button>
+        <button type="button" data-control="heavy">HEAVY</button>
+        <button type="button" data-control="bow">BOW</button>
+        <button type="button" data-control="dodge">DODGE</button>
+        <button type="button" data-control="special" class="special">SPECIAL</button>
       </div>
     </div>
-    <div id="orientation-hint"><span>↻</span><b>ROTATE YOUR DEVICE</b><small>Play in landscape for the best experience.</small></div>
+    <div id="orientation-hint" aria-live="polite"><span>↻</span><b>ROTATE YOUR DEVICE</b><small>Automatic landscape is unavailable here. Turn your phone sideways to continue.</small></div>
   </main>
   <script type="module" src="js/main.js"></script>
 </body>
